@@ -1,3 +1,4 @@
+
 /*
     Author : Young Lord
 */
@@ -5,58 +6,103 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ---------- Type Aliases ----------
 using ll = long long;
 using pii = pair<int,int>;
 using pll = pair<ll,ll>;
 using vi = vector<int>;
 using vll = vector<ll>;
 
+// ---------- Fast Input for Arrays ----------
 vi read_ints(int n){
     vi a(n);
     for(int &x : a) cin >> x;
     return a;
 }
 
+// ---------- Prefix Sum ----------
 vll prefix_sum(const vi &a){
     int n = a.size();
-    vll p(n+1,0);
-    for(int i=0;i<n;i++) p[i+1]=p[i]+a[i];
+    vll p(n + 1, 0);
+    for(int i = 0; i < n; i++)
+        p[i + 1] = p[i] + a[i];
     return p;
 }
 
-ll lcm(ll a,ll b){
-    return a/gcd(a,b)*b;
+// ---------- GCD / LCM ----------
+ll lcm(ll a, ll b){
+    return a / gcd(a, b) * b;
 }
 
+// ---------- Disjoint Set Union (DSU) ----------
 struct DSU {
     vi p, sz;
-    DSU(int n): p(n), sz(n,1) {
+
+    DSU(int n) : p(n), sz(n, 1) {
         iota(p.begin(), p.end(), 0);
     }
+
     int find(int x){
-        if(p[x]==x) return x;
-        return p[x]=find(p[x]);
+        if(p[x] == x) return x;
+        return p[x] = find(p[x]);
     }
-    bool unite(int a,int b){
-        a=find(a); b=find(b);
-        if(a==b) return false;
-        if(sz[a]<sz[b]) swap(a,b);
-        p[b]=a; sz[a]+=sz[b];
+
+    bool unite(int a, int b){
+        a = find(a);
+        b = find(b);
+        if(a == b) return false;
+        if(sz[a] < sz[b]) swap(a, b);
+        p[b] = a;
+        sz[a] += sz[b];
         return true;
     }
 };
 
-const ll MOD = 1e9+7;
-ll modpow(ll a,ll b){
-    ll r=1;
+// ---------- BFS ----------
+void bfs(int src, vector<vi> &g, vi &dist){
+    queue<int> q;
+    dist[src] = 0;
+    q.push(src);
+
+    while(!q.empty()){
+        int u = q.front(); q.pop();
+        for(int v : g[u]){
+            if(dist[v] == -1){
+                dist[v] = dist[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+}
+
+// ---------- Binary Search Pattern ----------
+/*
+int l = 0, r = 1e9, ans = -1;
+while(l <= r){
+    int m = (l + r) / 2;
+    if(check(m)){
+        ans = m;
+        r = m - 1;
+    } else {
+        l = m + 1;
+    }
+}
+*/
+
+// ---------- Modular Arithmetic ----------
+const ll MOD = 1e9 + 7;
+
+ll modpow(ll a, ll b){
+    ll r = 1;
     while(b){
-        if(b&1) r=r*a%MOD;
-        a=a*a%MOD;
-        b>>=1;
+        if(b & 1) r = r * a % MOD;
+        a = a * a % MOD;
+        b >>= 1;
     }
     return r;
 }
 
+// ---------- Main ----------
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -64,7 +110,19 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        // solve
+        // solve here
     }
+
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
